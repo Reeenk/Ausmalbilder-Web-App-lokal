@@ -20,6 +20,7 @@ Lege die Dateien im Home-Assistant-Konfigurationsverzeichnis unter `/config/www/
 ├── index.html
 ├── scan.py
 ├── manifest.json
+├── erstelle_bilder.py
 └── bilder/
     ├── Tiere/
     ├── Fahrzeuge/
@@ -30,6 +31,7 @@ Lege die Dateien im Home-Assistant-Konfigurationsverzeichnis unter `/config/www/
 - `scan.py` – durchsucht die Bildordner und erstellt bzw. aktualisiert die Bildübersicht
 - `manifest.json` – enthält die erfassten Bildinformationen
 - `bilder/` – enthält die Ausmalbilder im JPG- oder PNG-Format
+- 'erstelle_bilder.py/' - Damit kann man sich die ersten Bilder erstellen lassen
 
 ## ⚙️ 2. Home Assistant konfigurieren
 
