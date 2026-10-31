@@ -64,3 +64,14 @@ http://HOME-ASSISTANT-IP:8123/local/malbilder/index.html
 Ersetze `HOME-ASSISTANT-IP` durch die lokale IP-Adresse deines Home-Assistant-Systems.
 
 **Hinweis:** Nach Änderungen an der `configuration.yaml` muss Home Assistant gegebenenfalls neu gestartet werden. Die automatische Aktualisierung setzt einen korrekt eingerichteten Folder Watcher voraus.
+
+
+
+<img width="1800" height="821" alt="Web App" src="https://github.com/user-attachments/assets/fcead338-5a8a-49bf-8300-43b1825fa579" />
+
+<img width="1893" height="854" alt="image" src="https://github.com/user-attachments/assets/270f7da1-bf43-4371-addd-30cfdbbdd0bd" />
+
+<img width="846" height="528" alt="image" src="https://github.com/user-attachments/assets/880bb6ad-bdfc-45c3-9264-282704e4a71d" />
+
+
+
