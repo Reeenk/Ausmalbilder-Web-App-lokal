@@ -1,0 +1,23 @@
+alias: 'Malbilder: Automatisch scannen bei neuen Dateien'
+description: Aktualisiert die manifest.json bei Änderungen im Malbilder-Ordner.
+triggers:
+  - trigger: event
+    event_type: folder_watcher
+conditions:
+  - condition: template
+    value_template: >
+      {% set p = trigger.event.data.path | default('') %} {% set t =
+      trigger.event.data.event_type | default('') %} {{
+      p.startswith('/config/www/malbilder/bilder/')
+         and t in ['created', 'modified', 'deleted'] }}
+actions:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - action: shell_command.scan_malbilder
+  - action: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.neue_bilder
+mode: restart
