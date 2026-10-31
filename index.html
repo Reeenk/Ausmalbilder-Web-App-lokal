@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Malbilder</title>
+<style>
+  :root{
+    --bg: #000000;                  /* Standard-Hintergrund */
+    --card: #1c1c1e;                /* Standard-Kachelfarbe */
+    --ink: #f5f5f7;                 /* Textfarbe */
+    --accent: #0071e3;              /* Apple-Blau */
+    --border: rgba(255,255,255,0.12);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;height:100%}
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--ink);
+    letter-spacing: -0.022em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    transition: background-color 0.4s ease;
+  }
+  h1{margin:0;font-size:clamp(20px,3.2vw,30px); font-weight: 600;}
+  #btn-clearall{margin-left:auto;min-height:44px;padding:8px 16px;font-size:15px}
+  #btn-clearall.armed{background:#c62828 !important}
+  h2{margin:0; font-weight: 600;}
+  .hidden{display:none !important}
+
+  /* ---------- Galerie ---------- */
+  #gallery{padding:16px 20px 80px}
+  #gallery > header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .grid{
+    display:grid;gap:14px;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  }
+  .tile{
+    background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+    padding: 10px; cursor: pointer; text-align: center; font: inherit; color: var(--ink);
+    transition: transform .2s cubic-bezier(0.25, 1, 0.5, 1), border-color .2s, background-color 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .tile:active{transform:scale(.96);border-color:var(--accent)}
+  .tile svg{width:100%;height:auto;display:block}
+  .tile span{display:block;margin-top:6px;font-weight:600;font-size:15px}
+  .tile img{
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    background: transparent;
+    border-radius: 12px;
+  }
+  .tile.done{border-color:#34c759}
+  .tile.done span::after{content:' ✓'; color: #34c759;}
+  .tile.bad{opacity:.55}
+
+  .section{margin:0 0 24px}
+  .banner{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:14px 20px;border-radius:20px;margin-bottom:14px;color:#fff;
+    background:var(--c,#0071e3);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .banner .emoji{font-size:36px;line-height:1}
+  .banner h2{font-size:clamp(20px,3vw,26px)}
+  .banner .when{
+    margin-left:auto;background:rgba(255,255,255,0.2);padding:6px 14px;
+    border-radius:980px;font-weight:600;font-size:15px;backdrop-filter: blur(10px);
+  }
+  .category-title{font-size:clamp(20px,3vw,24px);margin:28px 0 14px; font-weight: 600; display:flex; align-items:center; gap:8px;}
+
+  /* ---------- Ordner-Kacheln ---------- */
+  .folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    padding: 8px 0 16px;
+  }
+  .folder-tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 22px 16px;
+    cursor: pointer;
+    text-align: center;
+    font: inherit;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  .folder-tile:active { transform: scale(.96); border-color: var(--accent); }
+  .folder-tile:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 8px 24px rgba(0,113,227,0.25); }
+  .folder-tile .folder-emoji { font-size: 42px; line-height: 1; margin-bottom: 2px; }
+  .folder-tile .folder-name { font-weight: 600; font-size: 17px; color: var(--ink); }
+  .folder-tile .folder-count { font-size: 13px; opacity: 0.7; background: rgba(128,128,128,0.2); padding: 3px 12px; border-radius: 980px; }
+
+  /* ---------- Geöffneter Ordner Inhalt ---------- */
+  .folder-content {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 24px;
+    animation: fadeIn .3s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: background-color 0.3s;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  .folder-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-size: 19px;
+  }
+  .folder-back-btn {
+    background-color: var(--accent);
+    border: none;
+    color: white;
+    border-radius: 980px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .folder-back-btn:hover { background-color: #0077ed; transform: scale(1.02); }
+  .folder-back-btn:active { transform: scale(0.98); }
+
+  /* ---------- Editor ---------- */
+  #editor{display:flex;gap:16px;padding:16px;height:100%;align-items:stretch}
+  #stage{
+    flex:1 1 auto;min-width:0;background:var(--card);border-radius:24px;
+    border:1px solid var(--border);padding:12px;display:flex;align-items:center;justify-content:center;
+    transition: background-color 0.3s;
+  }
+  #print-area{width:100%;display:flex;flex-direction:column;align-items:center}
+  #print-title{display:none}
+  #canvas{width:100%;height:auto;max-height:calc(100vh - 40px);touch-action:manipulation;object-fit:contain;}
+  #rcanvas{width:100%;height:auto;max-height:calc(100vh - 40px);touch-action:manipulation;cursor:pointer;background:#fff;object-fit:contain;border-radius:12px;}
+  #canvas .r{fill:#fff;cursor:pointer;transition:fill .15s}
+  #canvas *{stroke:#111;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+  #canvas .l{fill:none;pointer-events:none}
+  #canvas .r:active{filter:brightness(.92)}
+
+  #side{
+    flex:0 0 auto;width:min(280px,36vw);display:flex;flex-direction:column;gap:12px;
+    overflow:auto;background: var(--card); padding: 16px; border-radius: 24px; border: 1px solid var(--border);
+    transition: background-color 0.3s;
+  }
+  #side h2{font-size:18px; color: var(--ink);}
+  .palette{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:4px}
+  .sw{
+    aspect-ratio:1;border-radius:50%;border:3px solid var(--card);
+    box-shadow:0 0 0 2px rgba(128,128,128,0.4);cursor:pointer;padding:0;min-width:40px;
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .sw:hover{transform: scale(1.1);}
+  .sw.sel{box-shadow:0 0 0 3px var(--ink);transform:scale(1.12)}
+  .sw.eraser{
+    background:#fff repeating-linear-gradient(45deg,#fff 0 6px,#e0e0e0 6px 12px);
+  }
+  .btns{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+  
+  button.b, .button-apple {
+    font: inherit; font-weight: 500; font-size: 15px;
+    padding: 10px 16px; border-radius: 980px;
+    border: none; cursor: pointer; color: #fff;
+    background-color: var(--accent);
+    min-height: 46px; display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  button.b:hover, .button-apple:hover { background-color: #0077ed; transform: scale(1.02); }
+  button.b:active, .button-apple:active { transform: scale(0.98); }
+  button.b.warn{background: #ff453a !important;}
+  button.b.warn:hover{background: #ff6961 !important;}
+  button.b.alt{background: #5856d6 !important;}
+  button.b.alt:hover{background: #7972e6 !important;}
+
+  /* ---------- Ausklappbares Design-Menü (Nur auf Hauptseite sichtbar) ---------- */
+  #design-control {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 999;
+    font-family: inherit;
+    display: flex;
+    gap: 8px;
+  }
+  .design-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 980px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  .design-btn:hover { transform: scale(1.05); }
+  
+  .design-menu {
+    position: absolute;
+    bottom: 46px;
+    right: 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    width: 240px;
+    backdrop-filter: blur(12px);
+  }
+  .design-menu-title {
+    grid-column: span 4;
+    font-size: 12px;
+    font-weight: 700;
+    opacity: 0.6;
+    padding: 2px 4px;
+    text-transform: uppercase;
+  }
+  .color-picker-swatch {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s;
+  }
+  .color-picker-swatch:hover { transform: scale(1.15); }
+
+  /* schmales Hochformat */
+  @media (max-aspect-ratio:1/1){
+    #editor{flex-direction:column;height:auto}
+    #side{width:100%}
+    .palette{grid-template-columns:repeat(6,1fr)}
+    .btns{flex-direction:row;flex-wrap:wrap}
+    .btns .b{flex:1 1 40%}
+    #canvas,#rcanvas{max-height:none}
+  }
+
+  /* ---------- Druck ---------- */
+  @media print{
+    html,body{height:auto;background:#fff; color: #000;}
+    #gallery,#side,#print-title,#design-control{display:none !important}
+    #editor{display:block;padding:10mm;height:auto; background: #fff;}
+    #stage{border:none;padding:0;border-radius:0;display:block;background:#fff}
+    #print-area{display:block}
+    #canvas,#rcanvas{display:block;margin:0 auto;max-height:none;width:100%;height:100%;object-fit:contain;}
+    body.p-portrait #canvas, body.p-portrait #rcanvas{width:190mm;height:277mm;object-fit:contain;}
+    body.p-landscape #canvas, body.p-landscape #rcanvas{width:277mm;height:190mm;object-fit:contain;}
+    body.blank #canvas .r{fill:#fff !important}
+  }
+</style>
+</head>
+<body>
+
+<section id="gallery">
+  <header>
+    <span style="font-size:32px">🎨</span>
+    <h1>Malbilder</h1>
+    <button class="b warn" id="btn-clearall" type="button">🧹 Alle leeren</button>
+  </header>
+  <div id="sections"></div>
+</section>
+
+<section id="editor" class="hidden">
+  <div id="stage">
+    <div id="print-area">
+      <h2 id="print-title"></h2>
+      <svg id="canvas" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
+      <canvas id="rcanvas" class="hidden"></canvas>
+    </div>
+  </div>
+  <aside id="side">
+    <h2 id="pic-name"></h2>
+    <div class="palette" id="palette"></div>
+    <div class="btns">
+      <button class="b alt" id="btn-print">🖨️ Drucken</button>
+      <button class="b alt" id="btn-blank">📄 Leer drucken</button>
+      <button class="b warn" id="btn-reset">🧽 Neu anfangen</button>
+      <button class="b" id="btn-back">⬅️ Zurück</button>
+    </div>
+  </aside>
+</section>
+
+<!-- Design-Steuerung unten rechts (wird im Editor automatisch ausgeblendet) -->
+<div id="design-control">
+  <div style="position:relative;">
+    <button id="bg-toggle" class="design-btn" type="button">🌌 Hintergrund</button>
+    <div id="bg-menu" class="design-menu hidden">
+      <div class="design-menu-title">Hintergrundfarbe</div>
+    </div>
+  </div>
+
+  <div style="position:relative;">
+    <button id="card-toggle" class="design-btn" type="button">🧊 Kacheln</button>
+    <div id="card-menu" class="design-menu hidden">
+      <div class="design-menu-title">Kachelfarbe</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var COLORS = [
+    ['Rot','#ff453a'],['Rosa','#ff758f'],['Hellrosa','#ffccd5'],['Orange','#ff9500'],
+    ['Gelb','#ffd60a'],['Hellgelb','#fee440'],['Hellgrün','#32d74b'],['Grün','#34c759'],
+    ['Mint','#52b788'],['Türkis','#30b0c7'],['Hellblau','#64d2ff'],['Blau','#0071e3'],
+    ['Dunkelblau','#0a84ff'],['Lila','#af52de'],['Flieder','#d8bbff'],['Pink','#ff2d55'],
+    ['Hautfarbe','#ffcc80'],['Hellbraun','#ddbea9'],['Braun','#a2845e'],['Dunkelbraun','#8e6f47'],
+    ['Schwarz','#000000'],['Grau','#8e8e93'],['Weiß','#ffffff'],['Papier','#fff8e7']
+  ];
+  var ERASER = '#1c1c1e';
+
+  var bgToggle = document.getElementById('bg-toggle');
+  var bgMenu = document.getElementById('bg-menu');
+  var cardToggle = document.getElementById('card-toggle');
+  var cardMenu = document.getElementById('card-menu');
+  var designControl = document.getElementById('design-control');
+
+  function populateColorMenu(menuEl, cssVarName, storageKey, isBackground){
+    COLORS.forEach(function(c){
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'color-picker-swatch';
+      btn.style.backgroundColor = c[1];
+      btn.title = c[0];
+      btn.addEventListener('click', function(e){
+        e.stopPropagation();
+        document.documentElement.style.setProperty(cssVarName, c[1]);
+        localStorage.setItem(storageKey, c[1]);
+        if(isBackground){
+          if(c[1] === '#fff8e7' || c[1] === '#ffffff'){
+            document.documentElement.style.setProperty('--ink', '#2b2b2b');
+          } else {
+            document.documentElement.style.setProperty('--ink', '#f5f5f7');
+          }
+        }
+        menuEl.classList.add('hidden');
+      });
+      menuEl.appendChild(btn);
+    });
+  }
+  populateColorMenu(bgMenu, '--bg', 'malbilder_bg', true);
+  populateColorMenu(cardMenu, '--card', 'malbilder_card', false);
+
+  var savedBg = localStorage.getItem('malbilder_bg');
+  var savedCard = localStorage.getItem('malbilder_card');
+
+  if(savedBg){
+    document.documentElement.style.setProperty('--bg', savedBg);
+    if(savedBg === '#fff8e7' || savedBg === '#ffffff'){
+      document.documentElement.style.setProperty('--ink', '#2b2b2b');
+    }
+  }
+  if(savedCard){
+    document.documentElement.style.setProperty('--card', savedCard);
+  }
+
+  bgToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    bgMenu.classList.toggle('hidden');
+    cardMenu.classList.add('hidden');
+  });
+
+  cardToggle.addEventListener('click', function(e){
+    e.stopPropagation();
+    cardMenu.classList.toggle('hidden');
+    bgMenu.classList.add('hidden');
+  });
+
+  document.addEventListener('click', function(){
+    bgMenu.classList.add('hidden');
+    cardMenu.classList.add('hidden');
+  });
+
+  function star(cx,cy,R){
+    var pts=[],i,a,rad;
+    for(i=0;i<10;i++){
+      a=-Math.PI/2+i*Math.PI/5; rad=(i%2===0)?R:R*0.42;
+      pts.push((cx+rad*Math.cos(a)).toFixed(1)+' '+(cy+rad*Math.sin(a)).toFixed(1));
+    }
+    return '<path class="r" d="M'+pts.join(' L')+' Z"/>';
+  }
+  function heartD(cx,cy,s){
+    function p(x,y){return (cx+x*s).toFixed(1)+' '+(cy+y*s).toFixed(1);}
+    return 'M'+p(0,10)+' C'+p(-20,-6)+' '+p(-22,-22)+' '+p(-10,-22)+
+           ' C'+p(-4,-22)+' '+p(0,-16)+' '+p(0,-12)+
+           ' C'+p(0,-16)+' '+p(4,-22)+' '+p(10,-22)+
+           ' C'+p(22,-22)+' '+p(20,-6)+' '+p(0,10)+' Z';
+  }
+  function heart(cx,cy,s){return '<path class="r" d="'+heartD(cx,cy,s)+'"/>';}
+  function flower(x,y,s){
+    var out='',k,a;
+    for(k=0;k<5;k++){
+      a=-Math.PI/2+k*2*Math.PI/5;
+      out+='<circle class="r" cx="'+(x+11*s*Math.cos(a)).toFixed(1)+'" cy="'+(y+11*s*Math.sin(a)).toFixed(1)+'" r="'+(7*s).toFixed(1)+'"/>';
+    }
+    return out+'<circle class="r" cx="'+x+'" cy="'+y+'" r="'+(5*s).toFixed(1)+'"/>';
+  }
+  function rays(cx,cy,r1,r2,n){
+    var d='',k,a;
+    for(k=0;k<n;k++){
+      a=k*2*Math.PI/n;
+      d+='M'+(cx+r1*Math.cos(a)).toFixed(1)+' '+(cy+r1*Math.sin(a)).toFixed(1)+
+         ' L'+(cx+r2*Math.cos(a)).toFixed(1)+' '+(cy+r2*Math.sin(a)).toFixed(1)+' ';
+    }
+    return '<path class="l" d="'+d+'"/>';
+  }
+  function sun(cx,cy,r){return '<circle class="r" cx="'+cx+'" cy="'+cy+'" r="'+r+'"/>'+rays(cx,cy,r+8,r+20,8);}
+
+  var BASE = [
+    { id:'fisch', name:'Fisch', svg:
+      '<path class="r" d="M290 140 L365 80 L365 205 Z"/>'+
+      '<path class="r" d="M140 95 Q190 35 240 95 Z"/>'+
+      '<path class="r" d="M165 215 Q190 262 225 212 Z"/>'+
+      '<ellipse class="r" cx="190" cy="150" rx="110" ry="70"/>'+
+      '<circle class="r" cx="140" cy="135" r="17"/>'+
+      '<circle class="r" cx="137" cy="135" r="7"/>'+
+      '<path class="l" d="M82 165 Q95 175 108 165"/>'+
+      '<path class="l" d="M200 105 Q222 150 200 195"/>'+
+      '<path class="l" d="M232 112 Q250 150 232 188"/>'+
+      '<circle class="r" cx="65" cy="105" r="13"/>'+
+      '<circle class="r" cx="48" cy="65" r="9"/>'+
+      '<circle class="r" cx="80" cy="45" r="6"/>'
+    },
+    { id:'schmetterling', name:'Schmetterling', svg:
+      '<ellipse class="r" cx="140" cy="108" rx="68" ry="46" transform="rotate(-25 140 108)"/>'+
+      '<ellipse class="r" cx="260" cy="108" rx="68" ry="46" transform="rotate(25 260 108)"/>'+
+      '<ellipse class="r" cx="152" cy="195" rx="46" ry="36" transform="rotate(20 152 195)"/>'+
+      '<ellipse class="r" cx="248" cy="195" rx="46" ry="36" transform="rotate(-20 248 195)"/>'+
+      '<circle class="r" cx="128" cy="100" r="16"/>'+
+      '<circle class="r" cx="272" cy="100" r="16"/>'+
+      '<circle class="r" cx="152" cy="198" r="13"/>'+
+      '<circle class="r" cx="248" cy="198" r="13"/>'+
+      '<ellipse class="r" cx="200" cy="155" rx="13" ry="72"/>'+
+      '<circle class="r" cx="200" cy="78" r="15"/>'+
+      '<path class="l" d="M195 66 Q180 35 160 28"/>'+
+      '<path class="l" d="M205 66 Q220 35 240 28"/>'+
+      '<circle class="r" cx="158" cy="27" r="6"/>'+
+      '<circle class="r" cx="242" cy="27" r="6"/>'
+    },
+    { id:'haus', name:'Haus', svg:
+      '<circle class="r" cx="55" cy="52" r="22"/>'+
+      '<circle class="r" cx="82" cy="42" r="27"/>'+
+      '<circle class="r" cx="112" cy="55" r="20"/>'+
+      '<rect class="r" x="252" y="62" width="26" height="55"/>'+
+      '<rect class="r" x="100" y="128" width="200" height="135"/>'+
+      '<path class="r" d="M78 130 L200 48 L322 130 Z"/>'+
+      '<rect class="r" x="175" y="188" width="50" height="75"/>'+
+      '<circle class="r" cx="214" cy="228" r="4"/>'+
+      '<rect class="r" x="120" y="158" width="42" height="42"/>'+
+      '<rect class="r" x="238" y="158" width="42" height="42"/>'+
+      '<path class="l" d="M141 158 V200 M120 179 H162"/>'+
+      '<path class="l" d="M259 158 V200 M238 179 H280"/>'+
+      '<rect class="r" x="345" y="205" width="14" height="58"/>'+
+      '<circle class="r" cx="352" cy="180" r="34"/>'+
+      '<circle class="r" cx="352" cy="170" r="6"/>'+
+      '<circle class="r" cx="340" cy="190" r="6"/>'+
+      '<path class="l" d="M10 263 H390"/>'
+    },
+    { id:'blume', name:'Blume', svg:
+      '<path class="r" d="M194 140 L194 285 L206 285 L206 140 Z"/>'+
+      '<path class="r" d="M200 230 Q140 195 112 225 Q150 262 200 242 Z"/>'+
+      '<path class="r" d="M200 205 Q260 170 290 200 Q252 238 200 218 Z"/>'+
+      [0,45,90,135,180,225,270,315].map(function(a){
+        return '<ellipse class="r" cx="200" cy="62" rx="22" ry="40" transform="rotate('+a+' 200 112)"/>';
+      }).join('')+
+      '<circle class="r" cx="200" cy="112" r="30"/>'+
+      '<circle class="r" cx="190" cy="104" r="4"/>'+
+      '<circle class="r" cx="210" cy="104" r="4"/>'+
+      '<path class="l" d="M188 120 Q200 132 212 120"/>'+
+      '<path class="l" d="M10 285 H390"/>'
+    }
+  ];
+
+  function ostern(y){
+    var a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,
+        f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,
+        i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+        month=Math.floor((h+l-7*m+114)/31),day=((h+l-7*m+114)%31)+1;
+    return new Date(y,month-1,day);
+  }
+  function muttertag(y){
+    var first=new Date(y,4,1), dow=first.getDay();
+    var firstSunday=1+((7-dow)%7);
+    return new Date(y,4,firstSunday+7);
+  }
+
+  var EVENTS = [
+    { id:'muttertag', name:'Muttertag', emoji:'💐', color:'#ff2d55', date:muttertag, before:14, after:0, pics:[] },
+    { id:'ostern', name:'Ostern', emoji:'🐰', color:'#34c759', date:ostern, before:28, after:1, pics:[] },    
+    { id:'halloween', name:'Halloween', emoji:'🎃', color:'#ff9500', date:function(y){return new Date(y,9,31);}, before:21, after:1, pics:[] },
+    { id:'sankt martin', name:'Sankt Martin', emoji:'🏮', color:'#5856d6', date:function(y){return new Date(y,10,11);}, before:14, after:0, pics:[] },
+    { id:'weihnachten', name:'Weihnachten', emoji:'🎄', color:'#ff3b30', date:function(y){return new Date(y,11,24);}, before:29, after:2, pics:[] }
+  ];;
+
+  var $ = function(id){return document.getElementById(id)};
+  var gallery=$('gallery'), editor=$('editor'), sections=$('sections'), canvas=$('canvas'), rc=$('rcanvas');
+  var rctx=rc.getContext('2d',{willReadFrequently:true});
+  var current=null, color=COLORS[0][1], printBlank=false;
+
+  var BILDER_DIR='bilder/';
+  var LIMIT={bibliothek:100, ereignis:100};
+  var EXTS=['png','jpg','jpeg','webp'];
+
+  function today(){
+    var m=/[?&]datum=(\d{4})-(\d{2})-(\d{2})/.exec(location.search);
+    var d=m?new Date(+m[1],+m[2]-1,+m[3]):new Date();
+    return new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  }
+  var DAY=86400000;
+  function activeInfo(ev,now){
+    var y=now.getFullYear(), best=null, k, d, left;
+    for(k=-1;k<=1;k++){
+      d=ev.date(y+k);
+      left=Math.round((d-now)/DAY);
+      if(left<=ev.before && left>=-ev.after){ best={days:left}; break; }
+    }
+    return best;
+  }
+  function nextDays(ev,now){
+    var y=now.getFullYear(), best=1e9, k, left;
+    for(k=0;k<=1;k++){ left=Math.round((ev.date(y+k)-now)/DAY); if(left>=0 && left<best) best=left; }
+    return best;
+  }
+  function whenText(days){
+    if(days>1) return 'noch '+days+' Tage';
+    if(days===1) return 'schon morgen!';
+    if(days===0) return 'heute!';
+    return 'gerade war es soweit';
+  }
+
+  var PREFIX='malbilder:';
+  function load(id){
+    try{ var s=localStorage.getItem(PREFIX+id); return s?JSON.parse(s):{}; }catch(e){ return {}; }
+  }
+  function save(id,data){
+    try{ localStorage.setItem(PREFIX+id, JSON.stringify(data)); }catch(e){}
+  }
+  function applySaved(svgEl,id){
+    var saved=load(id), regs=svgEl.querySelectorAll('.r'), i;
+    for(i=0;i<regs.length;i++){ if(saved[i]) regs[i].style.fill=saved[i]; }
+  }
+
+  function makeTile(p){
+    var b=document.createElement('button');
+    b.className='tile'; b.type='button';
+    b.innerHTML='<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">'+p.svg+'</svg><span></span>';
+    b.querySelector('span').textContent=p.name;
+    var t=b.querySelector('svg'), shapes=t.querySelectorAll('*'), i;
+    for(i=0;i<shapes.length;i++){
+      shapes[i].setAttribute('stroke','#fff');
+      shapes[i].setAttribute('stroke-width','4');
+      shapes[i].setAttribute('stroke-linejoin','round');
+      shapes[i].setAttribute('stroke-linecap','round');
+      shapes[i].setAttribute('fill', shapes[i].getAttribute('class')==='l' ? 'none' : '#2c2c2e');
+    }
+    var regs=t.querySelectorAll('.r'), saved=load(p.id), j;
+    for(j=0;j<regs.length;j++){ if(saved[j]) regs[j].setAttribute('fill',saved[j]); }
+    b.addEventListener('click',function(){ openPic(p); });
+    return b;
+  }
+  var IO=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ IO.unobserve(e.target); if(e.target._load) e.target._load(); } });
+  },{rootMargin:'300px'}):null;
+  function makeRasterTile(url,label){
+    var b=document.createElement('button');
+    b.className='tile'; b.type='button';
+    var im=document.createElement('img');
+    im.alt='';
+    var sp=document.createElement('span'); sp.textContent=label;
+    b.appendChild(im); b.appendChild(sp);
+    b._load=function(){
+      resolveImg(url).then(function(src){ im.src=src; },function(err){
+        b.classList.add('bad'); sp.textContent=label+' ⚠'; b.title=err.message;
+      });
+    };
+    var done=load('r:'+url);
+    if(done.ops && done.ops.length) b.classList.add('done');
+    b.addEventListener('click',function(){ openPic({id:'r:'+url, name:label, raster:url}); });
+    if(IO) IO.observe(b); else b._load();
+    return b;
+  }
+  function makeGrid(pics){
+    var g=document.createElement('div'); g.className='grid';
+    pics.forEach(function(p){ g.appendChild(makeTile(p)); });
+    return g;
+  }
+
+  var FOUND={};
+  function sniffType(u){
+    if(u[0]===0x89&&u[1]===0x50&&u[2]===0x4e&&u[3]===0x47) return 'image/png';
+    if(u[0]===0xff&&u[1]===0xd8) return 'image/jpeg';
+    if(u[0]===0x47&&u[1]===0x49&&u[2]===0x46) return 'image/gif';
+    if(u[0]===0x52&&u[1]===0x49&&u[2]===0x46&&u[3]===0x46&&u[8]===0x57&&u[9]===0x45&&u[10]===0x42&&u[11]===0x50) return 'image/webp';
+    return null;
+  }
+  var BLOBS={};
+  function resolveImg(url){
+    if(BLOBS[url]) return BLOBS[url];
+    var external=/^https?:/i.test(url) && url.indexOf(location.origin)!==0;
+    BLOBS[url]=fetch(url,{cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.arrayBuffer();
+    }).then(function(buf){
+      var u=new Uint8Array(buf.slice(0,16)), t=sniffType(u);
+      if(!t){ throw new Error('kein Bildformat'); }
+      return URL.createObjectURL(new Blob([buf],{type:t}));
+    }).catch(function(err){
+      if(external && err instanceof TypeError) return url;
+      throw err;
+    });
+    return BLOBS[url];
+  }
+  function loadOk(url){
+    return resolveImg(url).then(function(){ return true; },function(){ return false; });
+  }
+  function discover(key,room){
+    if(FOUND[key]) return FOUND[key];
+    FOUND[key]=(async function(){
+      var urls=[], n=1, e, ok, u;
+      while(urls.length<room){
+        ok=false;
+        for(e=0;e<EXTS.length;e++){
+          u=BILDER_DIR+key+'/'+n+'.'+EXTS[e];
+          if(await loadOk(u)){ urls.push(u); ok=true; break; }
+        }
+        if(!ok) break;
+        n++;
+      }
+      return urls;
+    })();
+    return FOUND[key];
+  }
+
+  var MANIFEST=null;
+  function fetchManifest(){
+    return fetch('manifest.json?t='+Date.now(),{cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    }).then(function(m){ return m; }).catch(function(){ return null; });
+  }
+  function enc(path){ return path.split('/').map(encodeURIComponent).join('/'); }
+  function fileUrl(folderId,file){ return BILDER_DIR+(folderId?enc(folderId)+'/':'')+encodeURIComponent(file); }
+  function folderEntry(id){
+    if(!MANIFEST) return null;
+    for(var i=0;i<MANIFEST.ordner.length;i++){ if(MANIFEST.ordner[i].id===id) return MANIFEST.ordner[i]; }
+    return null;
+  }
+  function entriesFor(key,own,room){
+    if(MANIFEST){
+      var f=folderEntry(key);
+      var list=f?f.bilder.map(function(b){ return {url:fileUrl(key,b.datei), label:b.name}; }):[];
+      return Promise.resolve(list);
+    }
+    return discover(key,room).then(function(urls){
+      return urls.map(function(u,i){ return {url:u,label:'Bild '+(own+i+1)}; });
+    });
+  }
+  function extend(grid,key,own,room,countEl){
+    entriesFor(key,own,room).then(function(list){
+      list.forEach(function(e){ grid.appendChild(makeRasterTile(e.url,e.label)); });
+      if(countEl) countEl.textContent=(own+list.length)+' Bilder';
+    });
+  }
+
+  var AUTO_COLORS=['#30b0c7','#af52de','#0a84ff','#ff2d55','#a2845e','#64d2ff','#32d74b','#ff9500'];
+  function parseAutoEvent(f,idx){
+    var m=/^(\d{2})-(\d{2})[_ ]/.exec(f.id);
+    if(!m || f.id.indexOf('/')>=0) return null;
+    var mo=+m[1], da=+m[2];
+    if(mo<1||mo>12||da<1||da>31) return null;
+    return {id:f.id, name:f.name, emoji:'🎉', color:AUTO_COLORS[idx%AUTO_COLORS.length],
+            date:function(y){ return new Date(y,mo-1,da); }, before:14, after:0, pics:[]};
+  }
+
+  function buildGallery(){
+    sections.innerHTML='';
+    var now=today(), events=EVENTS.slice(), cats=[], known={}, autoIdx=0, active=[], rest=[];
+    EVENTS.forEach(function(e){ known[e.id]=true; });
+    if(MANIFEST){
+      MANIFEST.ordner.forEach(function(f){
+        if(known[f.id] || f.id==='bibliothek' || f.id==='') return;
+        var ae=parseAutoEvent(f,autoIdx);
+        if(ae){ events.push(ae); autoIdx++; } else cats.push(f);
+      });
+    }
+    events.forEach(function(ev){
+      var info=activeInfo(ev,now);
+      if(info) active.push({ev:ev,days:info.days}); else rest.push(ev);
+    });
+    active.sort(function(a,b){return a.days-b.days;});
+    rest.sort(function(a,b){return nextDays(a,now)-nextDays(b,now);});
+
+    active.forEach(function(a){
+      var s=document.createElement('div'); s.className='section';
+      var h=document.createElement('div'); h.className='banner'; h.style.setProperty('--c',a.ev.color);
+      h.innerHTML='<span class="emoji"></span><h2></h2><span class="when"></span>';
+      h.querySelector('.emoji').textContent=a.ev.emoji;
+      h.querySelector('h2').textContent='Malbilder zu '+a.ev.name;
+      h.querySelector('.when').textContent=whenText(a.days);
+      var g=makeGrid(a.ev.pics);
+      s.appendChild(h); s.appendChild(g);
+      sections.appendChild(s);
+      extend(g,a.ev.id,a.ev.pics.length,Math.max(0,LIMIT.ereignis-a.ev.pics.length));
+    });
+
+    function addFolderTile(containerGrid, emoji, name, countText, loadPicsCallback){
+      var tile=document.createElement('button');
+      tile.className='folder-tile'; tile.type='button';
+      tile.innerHTML='<span class="folder-emoji"></span><span class="folder-name"></span><span class="folder-count"></span>';
+      tile.querySelector('.folder-emoji').textContent=emoji;
+      tile.querySelector('.folder-name').textContent=name;
+      var cntEl=tile.querySelector('.folder-count');
+      cntEl.textContent=countText;
+
+      var contentBox=document.createElement('div');
+      contentBox.className='folder-content hidden';
+      contentBox.innerHTML='<div class="folder-content-header"><span>'+emoji+' '+name+'</span><button class="folder-back-btn" type="button">⬅️ Zurück</button></div>';
+      var gridContainer=document.createElement('div');
+      gridContainer.className='grid';
+      contentBox.appendChild(gridContainer);
+
+      var backBtn=contentBox.querySelector('.folder-back-btn');
+      backBtn.addEventListener('click',function(e){
+        e.stopPropagation();
+        contentBox.classList.add('hidden');
+        document.querySelectorAll('.folder-grid').forEach(function(el){ el.style.display='grid'; });
+        document.querySelectorAll('.category-title').forEach(function(el){ el.style.display='flex'; });
+      });
+
+      var loaded=false;
+      tile.addEventListener('click',function(){
+        document.querySelectorAll('.folder-grid').forEach(function(el){ el.style.display='none'; });
+        document.querySelectorAll('.category-title').forEach(function(el){ el.style.display='none'; });
+        document.querySelectorAll('.folder-content').forEach(function(el){ el.classList.add('hidden'); });
+
+        contentBox.classList.remove('hidden');
+        if(!loaded){
+          loaded=true;
+          loadPicsCallback(gridContainer, cntEl);
+        }
+        // window.scrollTo entfernt, damit der Bildschirm an Ort und Stelle bleibt
+      });
+
+      sections.appendChild(contentBox);
+      containerGrid.appendChild(tile);
+    }
+
+    // --- BEREICH 1: BILDERBIBLIOTHEK ---
+    var libTitle=document.createElement('h2');
+    libTitle.className='category-title';
+    libTitle.textContent='📂 Bilderbibliothek';
+    sections.appendChild(libTitle);
+
+    var libGrid=document.createElement('div');
+    libGrid.className='folder-grid';
+    sections.appendChild(libGrid);
+
+// Zählt alle Bilder aus der manifest.json für die Standard-Bibliothek zusammen
+    var totalManifestPics = MANIFEST ? MANIFEST.ordner.reduce(function(sum, f){ return sum + f.bilder.length; }, 0) : BASE.length;
+
+    addFolderTile(libGrid, '📚', 'Bilder Bibliothek', totalManifestPics + ' Bilder', function(g){
+      var lg=makeGrid(BASE);
+      while(lg.firstChild) g.appendChild(lg.firstChild);
+      
+      // Lädt automatisch ALLE Bilder aus allen Ordnern in die Standard-Bibliothek!
+      if(MANIFEST){
+        MANIFEST.ordner.forEach(function(f){
+          f.bilder.forEach(function(b){
+            g.appendChild(makeRasterTile(fileUrl(f.id, b.datei), b.name));
+          });
+        });
+      }
+    });
+
+    cats.forEach(function(f){
+      var niceName = f.name.charAt(0).toUpperCase() + f.name.slice(1);
+      var icon = f.icon || '📁';
+      var lowerId = f.id.toLowerCase();
+      if(!f.icon || f.icon === '📁'){
+        if(lowerId.includes('figur')) icon = '🤖';
+        else if(lowerId.includes('tier') || lowerId.includes('zoo')) icon = '🦁';
+        else if(lowerId.includes('auto') || lowerId.includes('fahrzeug')) icon = '🚗';
+        else if(lowerId.includes('natur') || lowerId.includes('blum')) icon = '🌸';
+        else if(lowerId.includes('fant') || lowerId.includes('zauber')) icon = '🦄';
+      }
+
+  var countTxt = (f.bilder ? f.bilder.length : 0) + ' Bilder';  
+      addFolderTile(libGrid, icon, niceName, countTxt, function(g, cntEl){
+        extend(g, f.id, 0, 0, cntEl);
+      });
+    });
+
+    // --- BEREICH 2: SAMMLUNGEN ---
+    var collTitle=document.createElement('h2');
+    collTitle.className='category-title';
+    collTitle.textContent='🎉 Sammlungen & Ereignisse';
+    sections.appendChild(collTitle);
+
+    var collGrid=document.createElement('div');
+    collGrid.className='folder-grid';
+    sections.appendChild(collGrid);
+
+    rest.forEach(function(ev){
+      var manifestFolder = MANIFEST ? MANIFEST.ordner.find(function(o){ return o.id === ev.id; }) : null;
+      var realPicsCount = manifestFolder ? manifestFolder.bilder.length : ev.pics.length;
+      var countTxt = realPicsCount + ' Bilder';
+
+      addFolderTile(collGrid, ev.emoji, ev.name, countTxt, function(g, cntEl){
+        var lg=makeGrid(ev.pics);
+        while(lg.firstChild) g.appendChild(lg.firstChild);
+        var room=Math.max(0,LIMIT.ereignis-ev.pics.length);
+        if(MANIFEST){ extend(g,ev.id,ev.pics.length,room,cntEl); }
+      });
+    });
+  }
+
+  var clearBtn=$('btn-clearall'), clearTimer=null;
+  function resetClearBtn(){ clearBtn.textContent='🧹 Alle leeren'; clearBtn.classList.remove('armed'); clearTimer=null; }
+  clearBtn.addEventListener('click',function(){
+    if(!clearTimer){
+      clearBtn.textContent='❓ Wirklich? Nochmal';
+      clearBtn.classList.add('armed');
+      clearTimer=setTimeout(resetClearBtn,4000);
+      return;
+    }
+    clearTimeout(clearTimer); resetClearBtn();
+    try{
+      var del=[], i, k;
+      for(i=0;i<localStorage.length;i++){ k=localStorage.key(i); if(k && k.indexOf(PREFIX)===0) del.push(k); }
+      del.forEach(function(x){ localStorage.removeItem(x); });
+    }catch(e){}
+    buildGallery();
+  });
+
+  function buildPalette(){
+    var pal=$('palette'); pal.innerHTML='';
+    COLORS.forEach(function(c,i){
+      var s=document.createElement('button');
+      s.type='button'; s.className='sw'+(i===0?' sel':'');
+      s.style.background=c[1]; s.title=c[0]; s.setAttribute('aria-label',c[0]);
+      s.addEventListener('click',function(){ pick(s,c[1]); });
+      pal.appendChild(s);
+    });
+    var e=document.createElement('button');
+    e.type='button'; e.className='sw eraser'; e.title='Radierer'; e.setAttribute('aria-label','Radierer');
+    e.addEventListener('click',function(){ pick(e,ERASER); });
+    pal.appendChild(e);
+  }
+  function pick(el,c){
+    color=c;
+    var all=document.querySelectorAll('.sw'), i;
+    for(i=0;i<all.length;i++) all[i].classList.remove('sel');
+    el.classList.add('sel');
+  }
+
+  function showEditor(p){
+    current=p;
+    $('pic-name').textContent=p.name;
+    $('print-title').textContent=p.name;
+    gallery.classList.add('hidden');
+    editor.classList.remove('hidden');
+    designControl.classList.add('hidden'); // Design-Menü im Editor ausblenden!
+    window.scrollTo(0,0);
+    setPrintLayout();
+  }
+  function openPic(p){
+    if(p.raster){ openRaster(p); return; }
+    rOrig=null;
+    rc.classList.add('hidden'); canvas.classList.remove('hidden');
+    canvas.innerHTML=p.svg;
+    applySaved(canvas,p.id);
+    showEditor(p);
+  }
+  function closePic(){
+    editor.classList.add('hidden');
+    gallery.classList.remove('hidden');
+    designControl.classList.remove('hidden'); // Design-Menü in der Galerie wieder anzeigen!
+    current=null; rOrig=null;
+    buildGallery();
+  }
+
+  canvas.addEventListener('click',function(ev){
+    if(!current || current.raster) return;
+    var t=ev.target;
+    while(t && t!==canvas && !(t.classList && t.classList.contains('r'))) t=t.parentNode;
+    if(!t || t===canvas) return;
+    t.style.fill=color;
+    var regs=canvas.querySelectorAll('.r'), data={}, i;
+    for(i=0;i<regs.length;i++){ if(regs[i].style.fill) data[i]=regs[i].style.fill; }
+    save(current.id,data);
+  });
+
+  var rOrig=null, rCur=null, rLab=null, rOps=[];
+  function hexRgb(h){ return [parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)]; }
+
+  function labelRegions(){
+    var w=rc.width, h=rc.height, n=w*h, d=rOrig.data;
+    rLab=new Int32Array(n);
+    var stack=new Int32Array(n), lbl=0, i, sp, p, x, y, q;
+    function fillable(k){ var o=k*4; return (d[o]+d[o+1]+d[o+2])>=450; }
+    for(i=0;i<n;i++){
+      if(rLab[i] || !fillable(i)) continue;
+      lbl++; sp=0; stack[sp++]=i; rLab[i]=lbl;
+      while(sp){
+        p=stack[--sp]; x=p%w; y=(p-x)/w;
+        if(x>0){ q=p-1; if(!rLab[q] && fillable(q)){ rLab[q]=lbl; stack[sp++]=q; } }
+        if(x<w-1){ q=p+1; if(!rLab[q] && fillable(q)){ rLab[q]=lbl; stack[sp++]=q; } }
+        if(y>0){ q=p-w; if(!rLab[q] && fillable(q)){ rLab[q]=lbl; stack[sp++]=q; } }
+        if(y<h-1){ q=p+w; if(!rLab[q] && fillable(q)){ rLab[q]=lbl; stack[sp++]=q; } }
+      }
+    }
+  }
+  function labelAt(x,y){
+    var w=rc.width, h=rc.height, r, dx, dy, xx, yy, l;
+    for(r=0;r<=4;r++){
+      for(dy=-r;dy<=r;dy++){ for(dx=-r;dx<=r;dx++){
+        xx=x+dx; yy=y+dy;
+        if(xx<0||yy<0||xx>=w||yy>=h) continue;
+        l=rLab[yy*w+xx]; if(l) return l;
+      } }
+    }
+    return 0;
+  }
+  function paintLabel(lbl,hex){
+    if(!lbl) return;
+    var c=hexRgb(hex), d=rCur.data, o=rOrig.data, L=rLab, n=L.length, i, k;
+    for(i=0;i<n;i++){
+      if(L[i]===lbl){
+        k=i*4;
+        d[k]=o[k]*c[0]/255; d[k+1]=o[k+1]*c[1]/255; d[k+2]=o[k+2]*c[2]/255;
+      }
+    }
+  }
+  function opLabel(o){ return labelAt(Math.floor(o[0]*rc.width), Math.floor(o[1]*rc.height)); }
+
+  function openRaster(p){
+    canvas.classList.add('hidden'); rc.classList.remove('hidden');
+    showEditor(p);
+    rOrig=null; rOps=[];
+    var tryPlain=false;
+    function start(img,canRead){
+      if(current!==p) return;
+      var w = img.naturalWidth, h = img.naturalHeight;
+      rc.width = w; rc.height = h;
+      setPrintLayout();
+      rctx.fillStyle='#fff'; rctx.fillRect(0,0,w,h);
+      rctx.drawImage(img,0,0,w,h);
+      if(!canRead){ $('pic-name').textContent=p.name+' (Ansicht)'; return; }
+      try{ rOrig=rctx.getImageData(0,0,w,h); }
+      catch(e){ rOrig=null; return; }
+      rCur=rctx.createImageData(w,h); rCur.data.set(rOrig.data);
+      labelRegions();
+      var saved=load(p.id); rOps=(saved.ops||[]).slice(0,400);
+      rOps.forEach(function(o){ paintLabel(opLabel(o),o[2]); });
+      rctx.putImageData(rCur,0,0);
+    }
+    var img=new Image();
+    img.onload=function(){ start(img,true); };
+    img.onerror=function(){
+      if(!tryPlain && img.crossOrigin){
+        tryPlain=true;
+        var im2=new Image();
+        im2.onload=function(){ start(im2,false); };
+        im2.src=p.raster;
+      }
+    };
+    resolveImg(p.raster).then(function(src){
+      if(/^https?:/i.test(src)) img.crossOrigin='anonymous';
+      img.src=src;
+    },function(){});
+  }
+
+  rc.addEventListener('click',function(ev){
+    if(!current || !current.raster || !rOrig) return;
+    var rect = rc.getBoundingClientRect();
+    var displayW = rect.width;
+    var displayH = rect.height;
+    var imgAspect = rc.width / rc.height;
+    var elemAspect = displayW / displayH;
+    
+    var renderW, renderH, offsetX = 0, offsetY = 0;
+    if (elemAspect > imgAspect) {
+      renderH = displayH;
+      renderW = displayH * imgAspect;
+      offsetX = (displayW - renderW) / 2;
+    } else {
+      renderW = displayW;
+      renderH = displayW / imgAspect;
+      offsetY = (displayH - renderH) / 2;
+    }
+
+    var clickX = ev.clientX - rect.left - offsetX;
+    var clickY = ev.clientY - rect.top - offsetY;
+
+    if (clickX < 0 || clickX > renderW || clickY < 0 || clickY > renderH) return;
+
+    var x = Math.floor((clickX / renderW) * rc.width);
+    var y = Math.floor((clickY / renderH) * rc.height);
+
+    var l = labelAt(x, y); if(!l) return;
+    paintLabel(l, color);
+    rctx.putImageData(rCur, 0, 0);
+    rOps = rOps.filter(function(o){ return opLabel(o) !== l; });
+    rOps.push([+(x / rc.width).toFixed(4), +(y / rc.height).toFixed(4), color]);
+    save(current.id, {ops: rOps});
+  });
+
+  $('btn-back').addEventListener('click',closePic);
+  $('btn-reset').addEventListener('click',function(){
+    if(!current) return;
+    if(current.raster){
+      if(!rOrig) return;
+      rOps=[]; rCur.data.set(rOrig.data); rctx.putImageData(rCur,0,0);
+    }else{
+      var regs=canvas.querySelectorAll('.r'), i;
+      for(i=0;i<regs.length;i++) regs[i].style.fill='';
+    }
+    save(current.id,{});
+  });
+  $('btn-print').addEventListener('click',function(){ printBlank=false; window.print(); });
+  $('btn-blank').addEventListener('click',function(){ printBlank=true; window.print(); });
+  function setPrintLayout(){
+    var landscape=(current && current.raster) ? (rc.width>rc.height) : true;
+    var b=document.body;
+    b.classList.remove('p-portrait','p-landscape');
+    b.classList.add(landscape?'p-landscape':'p-portrait');
+    var st=document.getElementById('pagesize');
+    if(!st){ st=document.createElement('style'); st.id='pagesize'; document.head.appendChild(st); }
+    st.textContent='@page{size:A4 '+(landscape?'landscape':'portrait')+';margin:0}';
+  }
+  window.addEventListener('beforeprint',function(){
+    setPrintLayout();
+    if(!printBlank) return;
+    document.body.classList.add('blank');
+    if(current && current.raster && rOrig) rctx.putImageData(rOrig,0,0);
+  });
+  window.addEventListener('afterprint',function(){
+    document.body.classList.remove('blank'); printBlank=false;
+    if(current && current.raster && rOrig) rctx.putImageData(rCur,0,0);
+  });
+
+  buildPalette();
+  fetchManifest().then(function(m){ MANIFEST=m; buildGallery(); });
+})();
+</script>
+</body>
+</html>
