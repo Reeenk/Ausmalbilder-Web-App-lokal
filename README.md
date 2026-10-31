@@ -143,7 +143,7 @@ Die Web-App ist für den lokalen Betrieb im eigenen Heimnetzwerk vorgesehen.
 
 ---
 
-**Viel Spaß beim Ausmalen! 🖍️
+Viel Spaß beim Ausmalen! 🖍️
 
 
 
