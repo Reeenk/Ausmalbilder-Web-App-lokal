@@ -20,17 +20,15 @@ Die App läuft im eigenen Heimnetzwerk. Die Bilder werden lokal auf dem Home-Ass
 
 Lege die Dateien im Home-Assistant-Konfigurationsverzeichnis unter `/config/www/malbilder/` ab.
 
-```text
-/config/www/malbilder/
-├── index.html
-├── scan.py
-├── manifest.json
-├── erstelle_bilder.py
-└── bilder/
-    ├── Tiere/
-    ├── Fahrzeuge/
-    └── Weihnachten/
-```
+    /config/www/malbilder/
+    ├── index.html
+    ├── scan.py
+    ├── manifest.json
+    ├── erstelle_bilder.py
+    └── bilder/
+        ├── Tiere/
+        ├── Fahrzeuge/
+        └── Weihnachten/
 
 **Dateien und Ordner:**
 
@@ -50,10 +48,8 @@ Die Unterordner können nach eigenen Themen benannt werden.
 
 Füge folgenden Eintrag in die `configuration.yaml` ein:
 
-```yaml
-shell_command:
-  scan_malbilder: "python3 /config/www/malbilder/scan.py"
-```
+    shell_command:
+      scan_malbilder: "python3 /config/www/malbilder/scan.py"
 
 Der Befehl startet das Python-Skript und aktualisiert die Bildübersicht.
 
@@ -72,57 +68,46 @@ Voraussetzungen:
 
 ### Automation
 
-Die folgende Automation kann unter Home Assistant als neue Automation im YAML-Modus eingefügt werden:
+Die folgende Automation kann unter Home Assistant im YAML-Modus eingefügt werden:
 
-```yaml
-alias: 'Malbilder: Automatisch scannen bei neuen Dateien'
-description: Aktualisiert die manifest.json bei Änderungen im Malbilder-Ordner.
-triggers:
-  - trigger: event
-    event_type: folder_watcher
+    alias: 'Malbilder: Automatisch scannen bei neuen Dateien'
+    description: Aktualisiert die manifest.json bei Änderungen im Malbilder-Ordner.
+    triggers:
+      - trigger: event
+        event_type: folder_watcher
+    conditions:
+      - condition: template
+        value_template: >
+          {% set p = trigger.event.data.path | default('') %}
+          {% set t = trigger.event.data.event_type | default('') %}
+          {{
+            p.startswith('/config/www/malbilder/bilder/')
+            and t in ['created', 'modified', 'deleted']
+          }}
+    actions:
+      - delay:
+          seconds: 2
+      - action: shell_command.scan_malbilder
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.neue_bilder
+    mode: restart
 
-conditions:
-  - condition: template
-    value_template: >
-      {% set p = trigger.event.data.path | default('') %}
-      {% set t = trigger.event.data.event_type | default('') %}
-      {{
-        p.startswith('/config/www/malbilder/bilder/')
-        and t in ['created', 'modified', 'deleted']
-      }}
-
-actions:
-  - delay:
-      seconds: 2
-
-  - action: shell_command.scan_malbilder
-
-  - action: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.neue_bilder
-
-mode: restart
-```
-
-**Wichtig:** Der Folder Watcher muss separat eingerichtet sein. Die Automation setzt voraus, dass er die entsprechenden Ereignisse liefert.
+**Wichtig:** Der Folder Watcher muss separat eingerichtet sein und die entsprechenden Ereignisse liefern.
 
 ---
 
 ## 🌐 3. Lokaler Zugriff
 
-Öffne die Web-App im Browser über folgende Adresse:
+Öffne die Web-App im Browser:
 
-```text
-http://HOME-ASSISTANT-IP:8123/local/malbilder/index.html
-```
+    http://HOME-ASSISTANT-IP:8123/local/malbilder/index.html
 
 Ersetze `HOME-ASSISTANT-IP` durch die lokale IP-Adresse deines Home-Assistant-Systems.
 
 Beispiel:
 
-```text
-http://192.168.178.10:8123/local/malbilder/index.html
-```
+    http://192.168.178.10:8123/local/malbilder/index.html
 
 ---
 
@@ -158,7 +143,7 @@ Die Web-App ist für den lokalen Betrieb im eigenen Heimnetzwerk vorgesehen.
 
 ---
 
-**Viel Spaß beim Ausmalen! 🖍️**
+**Viel Spaß beim Ausmalen! 🖍️
 
 
 
