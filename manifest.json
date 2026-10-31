@@ -1,0 +1,562 @@
+{
+ "erstellt": "2026-10-30T18:43:59",
+ "ordner": [
+  {
+   "id": " figuren",
+   "name": "Figuren",
+   "icon": "📁",
+   "bilder": [
+    {
+     "datei": "cooler-teenager-maedchen.jpg",
+     "name": "Cooler Teenager Maedchen"
+    },
+    {
+     "datei": "imgi_9_6fd3d8e0-b403-4683-9f7f-2c8d492aaa4c.jpg",
+     "name": "Imgi 9 6fd3d8e0 B403 4683 9f7f 2c8d492aaa4c"
+    },
+    {
+     "datei": "imgi_10_8a99fe7a-3752-4a71-bc15-18a17abc6956.jpg",
+     "name": "Imgi 10 8a99fe7a 3752 4a71 Bc15 18a17abc6956"
+    },
+    {
+     "datei": "jugendliche-tanzen-disco.jpg",
+     "name": "Jugendliche Tanzen Disco"
+    },
+    {
+     "datei": "kreative-muster-und-kreise.jpg",
+     "name": "Kreative Muster Und Kreise"
+    },
+    {
+     "datei": "rapper.jpg",
+     "name": "Rapper"
+    },
+    {
+     "datei": "reenager-shoppen-.jpg",
+     "name": "Reenager Shoppen"
+    },
+    {
+     "datei": "teenager-laptop.jpg",
+     "name": "Teenager Laptop"
+    },
+    {
+     "datei": "teenager-maedchen-katze.jpg",
+     "name": "Teenager Maedchen Katze"
+    },
+    {
+     "datei": "zwei-suesse-katzen.jpg",
+     "name": "Zwei Suesse Katzen"
+    }
+   ]
+  },
+  {
+   "id": "bibliothek",
+   "name": "Bibliothek",
+   "icon": "📁",
+   "bilder": [
+    {
+     "datei": "cooler-teenager-maedchen.jpg",
+     "name": "Cooler Teenager Maedchen"
+    },
+    {
+     "datei": "jugendliche-tanzen-disco.jpg",
+     "name": "Jugendliche Tanzen Disco"
+    },
+    {
+     "datei": "kreative-muster-und-kreise.jpg",
+     "name": "Kreative Muster Und Kreise"
+    },
+    {
+     "datei": "rapper.jpg",
+     "name": "Rapper"
+    },
+    {
+     "datei": "reenager-shoppen-.jpg",
+     "name": "Reenager Shoppen"
+    },
+    {
+     "datei": "teenager-laptop.jpg",
+     "name": "Teenager Laptop"
+    },
+    {
+     "datei": "teenager-maedchen-katze.jpg",
+     "name": "Teenager Maedchen Katze"
+    },
+    {
+     "datei": "zwei-suesse-katzen.jpg",
+     "name": "Zwei Suesse Katzen"
+    }
+   ]
+  },
+  {
+   "id": "halloween",
+   "name": "Halloween",
+   "icon": "🎃",
+   "bilder": [
+    {
+     "datei": "1.png",
+     "name": "Bild 1"
+    },
+    {
+     "datei": "2.png",
+     "name": "Bild 2"
+    },
+    {
+     "datei": "4.jpg",
+     "name": "Bild 4"
+    },
+    {
+     "datei": "5.jpg",
+     "name": "Bild 5"
+    },
+    {
+     "datei": "6.jpg",
+     "name": "Bild 6"
+    },
+    {
+     "datei": "7.jpg",
+     "name": "Bild 7"
+    },
+    {
+     "datei": "8.jpg",
+     "name": "Bild 8"
+    },
+    {
+     "datei": "ein-augen-monster-mit-fluegeln.jpg",
+     "name": "Ein Augen Monster Mit Fluegeln"
+    },
+    {
+     "datei": "gespenst-kuerbis-halloween.jpg",
+     "name": "Gespenst Kuerbis Halloween"
+    },
+    {
+     "datei": "halloween-kleines-freundliches-monster.jpg",
+     "name": "Halloween Kleines Freundliches Monster"
+    },
+    {
+     "datei": "imgi_17_kuerbis-kerze.jpg",
+     "name": "Imgi 17 Kuerbis Kerze"
+    },
+    {
+     "datei": "kinder-basteln-einen-kuerbis.jpg",
+     "name": "Kinder Basteln Einen Kuerbis"
+    },
+    {
+     "datei": "kleine-vampire-an-halloween.jpeg",
+     "name": "Kleine Vampire An Halloween"
+    },
+    {
+     "datei": "Kleines Freundliches Monster.jpg",
+     "name": "Kleines Freundliches Monster"
+    },
+    {
+     "datei": "Kuerbis Halloween.jpg",
+     "name": "Kuerbis Halloween"
+    },
+    {
+     "datei": "kuerbis-fledermaus.jpg",
+     "name": "Kuerbis Fledermaus"
+    },
+    {
+     "datei": "kuerbis-gespenst.jpg",
+     "name": "Kuerbis Gespenst"
+    },
+    {
+     "datei": "kuerbis-halloween-gruselhaus.jpg",
+     "name": "Kuerbis Halloween Gruselhaus"
+    },
+    {
+     "datei": "kuerbis-halloween.jpg",
+     "name": "Kuerbis Halloween"
+    },
+    {
+     "datei": "kuerbis-kerze.jpg",
+     "name": "Kuerbis Kerze"
+    },
+    {
+     "datei": "monster.jpg",
+     "name": "Monster"
+    },
+    {
+     "datei": "skelett-friedhof-halloween.jpg",
+     "name": "Skelett Friedhof Halloween"
+    },
+    {
+     "datei": "suesses-kawaii-gespenst.jpg",
+     "name": "Suesses Kawaii Gespenst"
+    }
+   ]
+  },
+  {
+   "id": "muttertag",
+   "name": "Muttertag",
+   "icon": "📁",
+   "bilder": [
+    {
+     "datei": "Alles gute zum Muttertag.jpg",
+     "name": "Alles Gute Zum Muttertag"
+    },
+    {
+     "datei": "Blumen Vase.jpg",
+     "name": "Blumen Vase"
+    },
+    {
+     "datei": "geburtstagskinder.jpg",
+     "name": "Geburtstagskinder"
+    },
+    {
+     "datei": "happy-party.jpg",
+     "name": "Happy Party"
+    },
+    {
+     "datei": "Kinder im Garten.jpg",
+     "name": "Kinder Im Garten"
+    },
+    {
+     "datei": "malvorlagenr.jpg",
+     "name": "Malvorlagenr"
+    },
+    {
+     "datei": "Mama list war vor.jpg",
+     "name": "Mama List War Vor"
+    },
+    {
+     "datei": "Mama und Kind im Garten.jpg",
+     "name": "Mama Und Kind Im Garten"
+    },
+    {
+     "datei": "Schmetterling.jpg",
+     "name": "Schmetterling"
+    }
+   ]
+  },
+  {
+   "id": "ostern",
+   "name": "Ostern",
+   "icon": "🐰",
+   "bilder": [
+    {
+     "datei": "Osterhasen beim Backen.jpg",
+     "name": "Osterhasen Beim Backen"
+    }
+   ]
+  },
+  {
+   "id": "sankt martin",
+   "name": "Sankt Martin",
+   "icon": "🏮",
+   "bilder": [
+    {
+     "datei": "4 Bilder in 1.jpg",
+     "name": "4 Bilder In 1"
+    },
+    {
+     "datei": "ankt-Martin-kniet-zum-Bettler.jpg",
+     "name": "Ankt Martin Kniet Zum Bettler"
+    },
+    {
+     "datei": "Bettler.webp",
+     "name": "Bettler"
+    },
+    {
+     "datei": "bischof-sankt-martin-mit-stab.webp",
+     "name": "Bischof Sankt Martin Mit Stab"
+    },
+    {
+     "datei": "Feuer Laternen.jpg",
+     "name": "Feuer Laternen"
+    },
+    {
+     "datei": "fisch-laterne-fuer-den-martinszug.webp",
+     "name": "Fisch Laterne Fuer Den Martinszug"
+    },
+    {
+     "datei": "fledermaus-laterne-sankt-martin.webp",
+     "name": "Fledermaus Laterne Sankt Martin"
+    },
+    {
+     "datei": "fuchs-laterne-sankt-martin.webp",
+     "name": "Fuchs Laterne Sankt Martin"
+    },
+    {
+     "datei": "haus-laterne-sankt-martin.webp",
+     "name": "Haus Laterne Sankt Martin"
+    },
+    {
+     "datei": "herbstblaetter-laterne-sankt-martin.webp",
+     "name": "Herbstblaetter Laterne Sankt Martin"
+    },
+    {
+     "datei": "herz-laterne-sankt-martin.webp",
+     "name": "Herz Laterne Sankt Martin"
+    },
+    {
+     "datei": "igel-laterne-sankt-martin.webp",
+     "name": "Igel Laterne Sankt Martin"
+    },
+    {
+     "datei": "Kind mit Latterne.webp",
+     "name": "Kind Mit Latterne"
+    },
+    {
+     "datei": "Kinder beim Martinsumzug.webp",
+     "name": "Kinder Beim Martinsumzug"
+    },
+    {
+     "datei": "Kinder singen Sankt Martin Lieder.webp",
+     "name": "Kinder Singen Sankt Martin Lieder"
+    },
+    {
+     "datei": "kinder-am-martinsfeuer.webp",
+     "name": "Kinder Am Martinsfeuer"
+    },
+    {
+     "datei": "kinder-basteln-laternen-sankt-martin.webp",
+     "name": "Kinder Basteln Laternen Sankt Martin"
+    },
+    {
+     "datei": "kinder-beim-martinsumzug.webp",
+     "name": "Kinder Beim Martinsumzug"
+    },
+    {
+     "datei": "Kinder-mit-Laternen.png",
+     "name": "Kinder Mit Laternen"
+    },
+    {
+     "datei": "kinder-teilen-martins-suessigkeiten.webp",
+     "name": "Kinder Teilen Martins Suessigkeiten"
+    },
+    {
+     "datei": "kinder-teilen-stutenkerl.webp",
+     "name": "Kinder Teilen Stutenkerl"
+    },
+    {
+     "datei": "Laterne Pilz.webp",
+     "name": "Laterne Pilz"
+    },
+    {
+     "datei": "Laternen am Baum.jpg",
+     "name": "Laternen Am Baum"
+    },
+    {
+     "datei": "Laternen-basteln.png",
+     "name": "Laternen Basteln"
+    },
+    {
+     "datei": "Laternen-spiegelung-in-der-pfuetze.webp",
+     "name": "Laternen Spiegelung In Der Pfuetze"
+    },
+    {
+     "datei": "Laternenumzug.png",
+     "name": "Laternenumzug"
+    },
+    {
+     "datei": "Leuchtende-laternen-im-fenster.webp",
+     "name": "Leuchtende Laternen Im Fenster"
+    },
+    {
+     "datei": "Mantel Teilen.jpg",
+     "name": "Mantel Teilen"
+    },
+    {
+     "datei": "Martinszug-durch-das-Dorf.png",
+     "name": "Martinszug Durch Das Dorf"
+    },
+    {
+     "datei": "mond-laterne-sankt-martin.webp",
+     "name": "Mond Laterne Sankt Martin"
+    },
+    {
+     "datei": "niedliche-martinsgans.webp",
+     "name": "Niedliche Martinsgans"
+    },
+    {
+     "datei": "pferd-fuer-den-sankt-martinsumzug.webp",
+     "name": "Pferd Fuer Den Sankt Martinsumzug"
+    },
+    {
+     "datei": "regenbogen-laterne-sankt-martin.webp",
+     "name": "Regenbogen Laterne Sankt Martin"
+    },
+    {
+     "datei": "Sankt Martin teilt den Mantel.webp",
+     "name": "Sankt Martin Teilt Den Mantel"
+    },
+    {
+     "datei": "Sankt-Martin-auf-dem-Pferd-beim-Teilen.jpg",
+     "name": "Sankt Martin Auf Dem Pferd Beim Teilen"
+    },
+    {
+     "datei": "sankt-martin-auf-dem-schimmel.webp",
+     "name": "Sankt Martin Auf Dem Schimmel"
+    },
+    {
+     "datei": "sankt-martin-teilt-den-mantel.webp",
+     "name": "Sankt Martin Teilt Den Mantel"
+    },
+    {
+     "datei": "Sankt-Martin-teilt-seinen-Umhang.jpg",
+     "name": "Sankt Martin Teilt Seinen Umhang"
+    },
+    {
+     "datei": "Sankt-Martin-vor-dem-Stadttor.jpg",
+     "name": "Sankt Martin Vor Dem Stadttor"
+    },
+    {
+     "datei": "Sant Martin auf den Pferd.jpg",
+     "name": "Sant Martin Auf Den Pferd"
+    },
+    {
+     "datei": "schmetterling-laterne-sankt-martin.webp",
+     "name": "Schmetterling Laterne Sankt Martin"
+    },
+    {
+     "datei": "selbstgebastelte-eulen-laterne.webp",
+     "name": "Selbstgebastelte Eulen Laterne"
+    },
+    {
+     "datei": "sonne-mond-sterne-laterne.webp",
+     "name": "Sonne Mond Sterne Laterne"
+    },
+    {
+     "datei": "St-martinsumzug-durchs-dorf.webp",
+     "name": "St Martinsumzug Durchs Dorf"
+    },
+    {
+     "datei": "St.-Martin-auf-dem-Pferd.png",
+     "name": "St. Martin Auf Dem Pferd"
+    },
+    {
+     "datei": "St.-Martin-im-Schnee.png",
+     "name": "St. Martin Im Schnee"
+    },
+    {
+     "datei": "St.-Martin-teilt-den-Mantel.png",
+     "name": "St. Martin Teilt Den Mantel"
+    },
+    {
+     "datei": "St.-Martin-und-das-Lagerfeuer.png",
+     "name": "St. Martin Und Das Lagerfeuer"
+    },
+    {
+     "datei": "St.-Martin-und-der-Bettler.png",
+     "name": "St. Martin Und Der Bettler"
+    },
+    {
+     "datei": "St.-Martin-und-der-frierende-Bettler.png",
+     "name": "St. Martin Und Der Frierende Bettler"
+    },
+    {
+     "datei": "sternenhimmel-laterne-sankt-martin.webp",
+     "name": "Sternenhimmel Laterne Sankt Martin"
+    },
+    {
+     "datei": "Sternenklare-Martinsnacht.png",
+     "name": "Sternenklare Martinsnacht"
+    }
+   ]
+  },
+  {
+   "id": "weihnachten",
+   "name": "Weihnachten",
+   "icon": "🎄",
+   "bilder": [
+    {
+     "datei": "Osterhasen beim Backen.jpg",
+     "name": "Osterhasen Beim Backen"
+    },
+    {
+     "datei": "Rentier im Wald.jpg",
+     "name": "Rentier Im Wald"
+    }
+   ]
+  },
+  {
+   "id": "🎂 geburtstag",
+   "name": "Geburtstag",
+   "icon": "🎂",
+   "bilder": [
+    {
+     "datei": "geburtstagskinder-ausmalbild.jpg",
+     "name": "Geburtstagskinder Ausmalbild"
+    },
+    {
+     "datei": "geburtstagskinder.jpg",
+     "name": "Geburtstagskinder"
+    },
+    {
+     "datei": "happy-party.jpg",
+     "name": "Happy Party"
+    },
+    {
+     "datei": "malvorlagenr.jpg",
+     "name": "Malvorlagenr"
+    }
+   ]
+  },
+  {
+   "id": "🛶 boote",
+   "name": "Boote",
+   "icon": "🛶",
+   "bilder": [
+    {
+     "datei": "imgi_5_762f00cb-4856-4a43-acc6-c668d21348b2.jpg",
+     "name": "Imgi 5 762f00cb 4856 4a43 Acc6 C668d21348b2"
+    }
+   ]
+  },
+  {
+   "id": "🦁 tiere",
+   "name": "Tiere",
+   "icon": "🦁",
+   "bilder": [
+    {
+     "datei": "Einhorn im Wald.jpg",
+     "name": "Einhorn Im Wald"
+    },
+    {
+     "datei": "imgi_7_f8194b3f-4938-4694-b39e-4eb6a6ee1436.jpg",
+     "name": "Imgi 7 F8194b3f 4938 4694 B39e 4eb6a6ee1436"
+    },
+    {
+     "datei": "imgi_8_0224e6b1-2c2b-41df-8638-42ee274b7558.jpg",
+     "name": "Imgi 8 0224e6b1 2c2b 41df 8638 42ee274b7558"
+    },
+    {
+     "datei": "katze-herz.jpg",
+     "name": "Katze Herz"
+    },
+    {
+     "datei": "löwe.jpg",
+     "name": "Löwe"
+    },
+    {
+     "datei": "Osterhase im Garten.jpg",
+     "name": "Osterhase Im Garten"
+    },
+    {
+     "datei": "Tiere im Wald.jpg",
+     "name": "Tiere Im Wald"
+    },
+    {
+     "datei": "zwei-suesse-katzen.jpg",
+     "name": "Zwei Suesse Katzen"
+    }
+   ]
+  },
+  {
+   "id": "🦄 fantasie",
+   "name": "Fantasie",
+   "icon": "🦄",
+   "bilder": [
+    {
+     "datei": "fee-mit-wunderschoenen-fluegeln.jpg",
+     "name": "Fee Mit Wunderschoenen Fluegeln"
+    },
+    {
+     "datei": "kleine-fee.jpg",
+     "name": "Kleine Fee"
+    }
+   ]
+  }
+ ]
+}
