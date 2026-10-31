@@ -1,0 +1,11 @@
+das muss in die configuration.yaml rein:
+
+
+
+
+################################################################################
+#           Shell Command
+################################################################################
+
+shell_command:
+  scan_malbilder: "python3 /config/www/malbilder/scan.py"
