@@ -1,37 +1,41 @@
 # 🖍️ Ausmalbilder-Web-App für Home Assistant
 
-Eine lokale Web-App für Home Assistant, mit der Kinder Ausmalbilder übersichtlich ansehen, auswählen und direkt ausdrucken können. Neue Bilder werden über ein Python-Skript erfasst und die Bildübersicht kann automatisch aktualisiert werden.
+Eine einfache, lokale Web-App für Home Assistant, mit der Kinder Ausmalbilder ansehen, auswählen und direkt ausdrucken können.
+
+Die Bilder werden auf dem eigenen Home-Assistant-System gespeichert. Neue, geänderte oder gelöschte Bilder können automatisch erkannt werden.
 
 ## ✨ Funktionen
 
-- 🖼️ Ausmalbilder aus eigenen Ordnern anzeigen
-- 📂 Eigene Kategorien und Unterordner verwenden
-- 🔄 Neue, geänderte und gelöschte Bilder automatisch erfassen
-- 🖨️ Bilder direkt über den Browser ausdrucken
-- 🏠 Lokal im Heimnetzwerk nutzbar
-- 👨‍👩‍👧‍👧 Ideal für PC, Tablet und Kinder
+- 🖼️ Ausmalbilder im Browser anzeigen
+- 📂 Bilder nach Ordnern und Kategorien sortieren
+- 🔄 Bildübersicht automatisch aktualisieren
+- 🖨️ Ausmalbilder direkt ausdrucken
+- 🏠 Zugriff im eigenen Heimnetzwerk
+- 💻 Nutzung auf PC, Tablet und Smartphone
 
 ## 📁 1. Ordnerstruktur
 
-Lege die Dateien im Home-Assistant-Konfigurationsverzeichnis unter `/config/www/malbilder/` ab.
+Die Dateien werden im Home-Assistant-Konfigurationsverzeichnis unter `/config/www/malbilder/` abgelegt.
 
 ```text
 /config/www/malbilder/
 ├── index.html
 ├── scan.py
 ├── manifest.json
-├── erstelle_bilder.py
 └── bilder/
     ├── Tiere/
     ├── Fahrzeuge/
     └── Weihnachten/
 ```
 
+**Dateien und Ordner:**
+
 - `index.html` – Oberfläche der Web-App
-- `scan.py` – durchsucht die Bildordner und erstellt bzw. aktualisiert die Bildübersicht
+- `scan.py` – durchsucht die Bildordner und aktualisiert die Bildübersicht
 - `manifest.json` – enthält die erfassten Bildinformationen
 - `bilder/` – enthält die Ausmalbilder im JPG- oder PNG-Format
-- 'erstelle_bilder.py/' - Damit kann man sich die ersten Bilder erstellen lassen
+
+Die Unterordner können nach eigenen Themen benannt werden.
 
 ## ⚙️ 2. Home Assistant konfigurieren
 
@@ -44,20 +48,24 @@ shell_command:
   scan_malbilder: "python3 /config/www/malbilder/scan.py"
 ```
 
+Der Befehl startet das Scan-Skript und aktualisiert die Bildübersicht.
+
 ### Automatische Aktualisierung
 
-Die Automation reagiert auf `folder_watcher`-Ereignisse. Werden Bilder im überwachten Ordner erstellt, geändert oder gelöscht, wartet sie zwei Sekunden und startet anschließend das Scan-Skript.
+Die Home-Assistant-Automation reagiert auf Dateiänderungen im Ordner `bilder/`.
 
-Damit das funktioniert, müssen folgende Voraussetzungen erfüllt sein:
+Bei neu erstellten, geänderten oder gelöschten Dateien wartet sie zwei Sekunden und startet anschließend das Scan-Skript.
+
+Voraussetzungen:
 
 - Der Folder Watcher überwacht `/config/www/malbilder/bilder/`.
-- Die Ereignisse enthalten den Dateipfad und den Ereignistyp `created`, `modified` oder `deleted`.
+- Die Ereignisse enthalten den Dateipfad und den Ereignistyp.
 - Die Automation ist eingerichtet.
-- Der Helfer `input_boolean.neue_bilder` existiert.
+- Der Helfer `input_boolean.neue_bilder` ist vorhanden.
 
 ### Lokaler Zugriff
 
-Öffne die App im Browser über:
+Öffne die Web-App im Browser:
 
 ```text
 http://HOME-ASSISTANT-IP:8123/local/malbilder/index.html
@@ -65,7 +73,25 @@ http://HOME-ASSISTANT-IP:8123/local/malbilder/index.html
 
 Ersetze `HOME-ASSISTANT-IP` durch die lokale IP-Adresse deines Home-Assistant-Systems.
 
-**Hinweis:** Nach Änderungen an der `configuration.yaml` muss Home Assistant gegebenenfalls neu gestartet werden. Die automatische Aktualisierung setzt einen korrekt eingerichteten Folder Watcher voraus.
+## 🔄 Neue Ausmalbilder hinzufügen
+
+1. Kopiere neue JPG- oder PNG-Dateien in den passenden Unterordner.
+2. Warte auf die automatische Aktualisierung durch Home Assistant.
+3. Öffne oder aktualisiere die Web-App im Browser.
+
+Falls die automatische Aktualisierung nicht eingerichtet ist, kann das Scan-Skript manuell ausgeführt werden.
+
+## 🔒 Datenschutz
+
+Die Web-App ist für den lokalen Betrieb im Heimnetzwerk vorgesehen. Die Bilder werden auf dem eigenen Home-Assistant-System gespeichert.
+
+## 🛠️ Voraussetzungen
+
+- Home Assistant
+- Zugriff auf das Konfigurationsverzeichnis
+- Python 3 für das Scan-Skript
+- Webbrowser auf PC, Tablet oder Smartphone
+
 
 
 
